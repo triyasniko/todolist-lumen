@@ -15,19 +15,12 @@ class TaskCategoryController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' =>'List Category',
+            'message' =>'List Task Category',
             'data'    => $taskCategories
         ], 200);
-        // return response()->json([
-        //     'message'=>'Masuk broo'
-        // ],200);
     }
     public function store(Request $request)
     {
-        // return response()->json([
-        //     'message'=>'Masuk broo'
-        // ],200);
-        // exit();
         $validator = Validator::make($request->all(), [
             'task_id' => 'required',
             'category_id'   => 'required',

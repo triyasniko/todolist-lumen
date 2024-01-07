@@ -44,7 +44,6 @@ class TaskController extends Controller
         } else {
 
             $task = Task::create([
-                'task_id' => $request->input('task_id'),
                 'user_id' => $request->input('user_id'),
                 'task_name' => $request->input('task_name'),
                 'description'  => $request->input('description'),

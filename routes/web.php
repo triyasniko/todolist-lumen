@@ -22,3 +22,8 @@ $router->post('/task-category','TaskCategoryController@store');
 $router->get('/task-category/{id}','TaskCategoryController@show');
 $router->put('/task-category/{id}','TaskCategoryController@update');
 $router->delete('/task-category/{id}','TaskCategoryController@destroy');
+
+$router->get('/notification','NotificationController@index');
+$router->post('/notification','NotificationController@store');
+$router->get('/notification/{id}','NotificationController@show');
+$router->delete('/notification/{id}','NotificationController@destroy');

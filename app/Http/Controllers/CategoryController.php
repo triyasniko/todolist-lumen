@@ -18,16 +18,9 @@ class CategoryController extends Controller
             'message' =>'List Category',
             'data'    => $categories
         ], 200);
-        // return response()->json([
-        //     'message'=>'Masuk broo'
-        // ],200);
     }
     public function store(Request $request)
     {
-        // return response()->json([
-        //     'message'=>'Masuk broo'
-        // ],200);
-        // exit();
         $validator = Validator::make($request->all(), [
             'category_name'   => 'required',
         ]);
@@ -43,7 +36,6 @@ class CategoryController extends Controller
         } else {
 
             $category = Category::create([
-                'category_id' => $request->input('category_id'),
                 'category_name' => $request->input('category_name')
             ]);
 
@@ -98,7 +90,6 @@ class CategoryController extends Controller
         } else {
 
             $category = Category::where('category_id',$id)->update([
-                'category_id' => $request->input('category_id'),
                 'category_name' => $request->input('category_name')
             ]);
 
