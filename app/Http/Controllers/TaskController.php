@@ -105,8 +105,6 @@ class TaskController extends Controller
         } else {
 
             $task = Task::where('task_id',$id)->update([
-                'task_id' => $request->input('task_id'),
-                'user_id' => $request->input('user_id'),
                 'task_name' => $request->input('task_name'),
                 'description'  => $request->input('description'),
                 'due_date' => $request->input('due_date'),
