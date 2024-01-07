@@ -12,9 +12,9 @@ Route::group([
     'middleware'=>'auth',
     'prefix' => 'api'
 ], function ($router) {
-    $router->post('logout', 'AuthController@logout');
-    $router->post('refresh', 'AuthController@refresh');
-    $router->post('user-profile', 'AuthController@me');
+    $router->post('/logout', 'AuthController@logout');
+    $router->post('/refresh', 'AuthController@refresh');
+    $router->post('/user-profile', 'AuthController@me');
 
     $router->get('/task','TaskController@index');
     $router->post('/task','TaskController@store');
