@@ -22,7 +22,7 @@ class NotificationController extends Controller
     public function store(Request $request)
     {
         $notification = Notification::create([
-            'user_id' => $request->input('user_id'),
+            'user_id' => auth()->user()->user_id,
             'notification_message' => $request->input('notification_message')
         ]);
 
@@ -42,7 +42,7 @@ class NotificationController extends Controller
     public function show($id)
     {
         $notification = Notification::select("*")
-                    ->where("Notification_id",$id)
+                    ->where("notification_id",$id)
                     ->get();
 
         if ($notification) {

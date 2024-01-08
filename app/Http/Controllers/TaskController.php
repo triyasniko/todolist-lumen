@@ -12,6 +12,7 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::all();
+        // $user_id= auth()->user()->user_id;
 
         return response()->json([
             'success' => true,
@@ -44,7 +45,7 @@ class TaskController extends Controller
         } else {
 
             $task = Task::create([
-                'user_id' => $request->input('user_id'),
+                'user_id' => auth()->user()->user_id,
                 'task_name' => $request->input('task_name'),
                 'description'  => $request->input('description'),
                 'due_date' => $request->input('due_date'),

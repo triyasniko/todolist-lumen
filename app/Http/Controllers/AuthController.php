@@ -12,7 +12,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'refresh', 'logout']]);
+        $this->middleware('auth:api', ['except' => ['login', 'refresh', 'logout', 'register']]);
     }
     /**
      * Get a JWT via given credentials.
@@ -35,6 +35,36 @@ class AuthController extends Controller
         }
 
         return $this->respondWithToken($token);
+    }
+
+    public function register(Request $request){
+        // return response()->json([
+        //     'message'=>'Masuk ndroo',
+        // ]);
+        // exit();
+        $this->validate($request, [
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => app('hash')->make($request->input('password')),
+        ]);
+        if ($user) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Registrasi Berhasil Disimpan!',
+                'data' => $user
+            ], 201);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Registrasi Gagal Disimpan!',
+            ], 400);
+        }
     }
 
      /**

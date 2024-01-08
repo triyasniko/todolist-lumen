@@ -7,6 +7,17 @@ $router->get('/', function () use ($router) {
 });
 
 $router->post('/api/login', 'AuthController@login');
+$router->post('/api/register', 'AuthController@register');
+
+Route::group([
+    'prefix' => 'api'
+], function ($router) {
+    $router->get('/category','CategoryController@index');
+    $router->post('/category','CategoryController@store');
+    $router->get('/category/{id}','CategoryController@show');
+    $router->put('/category/{id}','CategoryController@update');
+    $router->delete('/category/{id}','CategoryController@destroy');
+});
 
 Route::group([
     'middleware'=>'auth',
@@ -21,12 +32,6 @@ Route::group([
     $router->get('/task/{id}','TaskController@show');
     $router->put('/task/{id}','TaskController@update');
     $router->delete('/task/{id}','TaskController@destroy');
-
-    $router->get('/category','CategoryController@index');
-    $router->post('/category','CategoryController@store');
-    $router->get('/category/{id}','CategoryController@show');
-    $router->put('/category/{id}','CategoryController@update');
-    $router->delete('/category/{id}','CategoryController@destroy');
 
     $router->get('/task-category','TaskCategoryController@index');
     $router->post('/task-category','TaskCategoryController@store');
