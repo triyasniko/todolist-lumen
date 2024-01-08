@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class NotificationController extends Controller
 {
@@ -21,9 +23,18 @@ class NotificationController extends Controller
     }
     public function store(Request $request)
     {
+        // return response()->json([
+        //     'success' => true,
+        //     'message' =>'Test Notif Carbon',
+        //     'data'    => Carbon::today()
+        // ], 200);
+
+        $todayTasksCount = Task::where('user_id', auth()->user()->user_id)
+                            ->whereDate('due_date', Carbon::today())
+                            ->count();
         $notification = Notification::create([
             'user_id' => auth()->user()->user_id,
-            'notification_message' => $request->input('notification_message')
+            'notification_message' =>'Kamu punya '.$todayTasksCount.' task dengan dateline hari ini: '
         ]);
 
         if ($notification) {
