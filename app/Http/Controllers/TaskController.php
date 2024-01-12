@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +12,11 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::join('task_categories', 'tasks.task_id', '=', 'task_categories.task_id')
+                  ->join('categories', 'task_categories.category_id', '=', 'categories.category_id')
+                  ->where('tasks.user_id', auth()->user()->user_id)
+                  ->select('tasks.task_id','tasks.task_name', 'tasks.description', 'categories.category_name', 'tasks.status', 'tasks.priority', 'tasks.due_date')
+                  ->get();
         // $user_id= auth()->user()->user_id;
 
         return response()->json([
@@ -55,11 +60,16 @@ class TaskController extends Controller
             ]);
 
             if ($task) {
+                $notification = Notification::create([
+                    'user_id' => auth()->user()->user_id,
+                    'notification_message' =>'Kamu berhasil menambah task baru'
+                ]);
                 return response()->json([
                     'success' => true,
                     'message' => 'Task Berhasil Disimpan!',
                     'data' => $task
                 ], 201);
+
             } else {
                 return response()->json([
                     'success' => false,

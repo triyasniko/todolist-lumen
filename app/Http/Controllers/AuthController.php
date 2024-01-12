@@ -42,11 +42,20 @@ class AuthController extends Controller
         //     'message'=>'Masuk ndroo',
         // ]);
         // exit();
-        $this->validate($request, [
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:6',
-        ]);
+        try {
+            $this->validate($request, [
+                'name' => 'required|string',
+                'email' => 'required|string|email|unique:users',
+                'password' => 'required|string|min:6',
+            ]);
+        } catch (ValidationException $e) {
+            $errors = $e->errors();
+            return response()->json([
+                'success' => false,
+                'message' => 'Registrasi Gagal Disimpan!',
+                'errors' => $errors,
+            ], 422);
+        }
 
         $user = User::create([
             'name' => $request->input('name'),
@@ -74,6 +83,10 @@ class AuthController extends Controller
      */
     public function me()
     {
+        // return response()->json([
+        //     'message'=>'Masuk ndroo',
+        // ]);
+        // exit();
         return response()->json(auth()->user());
     }
 

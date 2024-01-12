@@ -75,6 +75,25 @@ class TaskCategoryController extends Controller
             ], 404);
         }
     }
+    public function showByTaskId($id)
+    {
+        $taskCategory = TaskCategory::select("*")
+                    ->where("task_id",$id)
+                    ->get();
+
+        if ($taskCategory) {
+            return response()->json([
+                'success'   => true,
+                'message'   => 'Detail Category!',
+                'data'      => $taskCategory
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Category Tidak Ditemukan!',
+            ], 404);
+        }
+    }
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -93,6 +112,42 @@ class TaskCategoryController extends Controller
         } else {
 
             $taskCategory = TaskCategory::where('taskcategory_id',$id)->update([
+                'task_id' => $request->input('task_id'),
+                'category_id' => $request->input('category_id'),
+            ]);
+
+            if ($taskCategory) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Task Category Berhasil Diupdate!',
+                    'data' => $taskCategory
+                ], 201);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Task Category Gagal Diupdate!',
+                ], 400);
+            }
+        }
+    }
+    public function updateByTaskId(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'task_id'   => 'required',
+            'category_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Task ID/Category ID Wajib Diisi!',
+                'data'   => $validator->errors()
+            ],401);
+
+        } else {
+
+            $taskCategory = TaskCategory::where('task_id',$id)->update([
                 'task_id' => $request->input('task_id'),
                 'category_id' => $request->input('category_id'),
             ]);

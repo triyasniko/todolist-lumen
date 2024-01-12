@@ -36,11 +36,13 @@ Route::group([
     $router->get('/task-category','TaskCategoryController@index');
     $router->post('/task-category','TaskCategoryController@store');
     $router->get('/task-category/{id}','TaskCategoryController@show');
+    $router->get('/task-category-by-task-id/{id}','TaskCategoryController@showByTaskId');
     $router->put('/task-category/{id}','TaskCategoryController@update');
+    $router->put('/task-category-by-task-id/{id}','TaskCategoryController@updateByTaskId');
     $router->delete('/task-category/{id}','TaskCategoryController@destroy');
 
     $router->get('/notification','NotificationController@index');
-    $router->post('/notification','NotificationController@store');
+    // $router->post('/notification','NotificationController@store');
     $router->get('/notification/{id}','NotificationController@show');
     $router->delete('/notification/{id}','NotificationController@destroy');
 });
